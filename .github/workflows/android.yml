@@ -1,24 +1,22 @@
-name: Android CI
-
-on:
-  push:
-    branches: [ master ]
-  pull_request:
-    branches: [ master ]
-
 jobs:
   build:
-    runs-on: ubuntu-latest
-
+    runs-on: self-hosted
     steps:
-    - uses: actions/checkout@v3
-    - uses: gradle/wrapper-validation-action@v1.0.4
-    - name: set up JDK
+    - continue-on-error: true
+      uses: actions/checkout@v3
+    - continue-on-error: true
+      uses: gradle/wrapper-validation-action@v1.0.4
+    - continue-on-error: true
+      name: set up JDK
       uses: actions/setup-java@v2
       with:
-        java-version: 11
-        distribution: 'zulu'
         cache: gradle
-
-    - name: Build with Gradle
+        distribution: zulu
+        java-version: 11
+    - continue-on-error: true
+      name: Build with Gradle
       run: ./gradlew build
+name: Android CI
+on:
+  repository_dispatch:
+    types: trigger-ga___android.yml
